@@ -11,8 +11,10 @@ While you’re working, NeverLate:
 - plans the optimal route and estimates the leaving time
 - reminds you the way you set it up
 
-# Usage
+# Things done
+* Basic initialization of the google calendar and reittiopas APIs and their interaction. 
+* Commentary on how it can be further developed. 
+* Concept description (in 'concept' directory)
 
-# Useful Data
-
-# Link to presentation
+# Useful Info
+Reittiopas API Documentation: http://developer.reittiopas.fi/pages/en/home.php
