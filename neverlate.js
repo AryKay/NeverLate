@@ -1,5 +1,9 @@
-// Current Time
+// Variables
 var timeNow = new Date();
+var address = '';
+var latitude = 0;
+var longitude = 0;
+var geocoder = new google.maps.Geocoder();
 
 // Updates view
 function appendResults(text) {
@@ -23,11 +27,20 @@ function makeRequest() {
     });
     
     request.then(function(response) {
-       console.log(response);
-       appendResults(JSON.stringify(response, null, 2));
+      // console.log(response.result.items[0]);
+       address = response.result.items[0].location;
+       appendResults(JSON.stringify(response.result.items[0], null, 2));
     }, function(reason) {
       console.log('Error: ' + reason.result.error.message);
     });
 }
+
+// Handles google geocoder (to convert addresses into latitude/longitude pairs)
+geocoder.geocode( { 'address': address}, function(results, status) {
+if (status == google.maps.GeocoderStatus.OK) {
+    latitude = results[0].geometry.location.lat();
+    longitude = results[0].geometry.location.lng();
+    } 
+}); 
 
 init()
