@@ -1,11 +1,18 @@
+// Configurables
+reittiopasUser = '';
+reittiopasPassword = '';
+googleAPIKey = '';
+googleCalendarId = '';
+
 // Variables
 var timeNow = new Date();
 var address = 'kampp';
 // var latitude = 0;
 // var longitude = 0;
 var geocoder = new google.maps.Geocoder();
-var hslAPI = "http://api.reittiopas.fi/hsl/prod/?user=arykay&pass=teamgg"
+var hslAPI = "http://api.reittiopas.fi/hsl/prod/?user=" + reittiopasUser + '&pass=' + reittiopasPassword
 var latlong = '';
+var currentLocation = 'CURRENT LOCATION';
 
 // Updates view
 function appendResults(text) {
@@ -16,14 +23,14 @@ function appendResults(text) {
 
 // Initializes google API
 function init() {
-    gapi.client.setApiKey('AIzaSyDBqr0MvwpNhEtWrR_W_8uiZcqdsbBMvZ8');
+    gapi.client.setApiKey(googleAPIKey);
     gapi.client.load('calendar', 'v3').then(makeRequest);
 }
 
 // Handles google calendar API
 function makeRequest() {
     var request = gapi.client.calendar.events.list({
-      'calendarId': 'sa0dfsv5h2jhr8gdechriajc0k@group.calendar.google.com',
+      'calendarId': 'googleCalendarId',
       'singleEvents': true, /* required to use timeMin */ 
       'timeMin': timeNow.toJSON(),
     });
@@ -38,16 +45,27 @@ function makeRequest() {
 }
 
 // Handles Reittiopas geocoder functionality
-var xmlhttp = new XMLHttpRequest();
-xmlhttp.onreadystatechange = function() {
-if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-    var data = JSON.parse(xmlhttp.responseText);
+var xmlhttpGeo = new XMLHttpRequest();
+xmlhttpGeo.onreadystatechange = function() {
+if (xmlhttpGeo.readyState == 4 && xmlhttpGeo.status == 200) {
+    var data = JSON.parse(xmlhttpGeo.responseText);
     latlong = data.coords // not tested yet
     console.log(latlong);
     }
 }
-xmlhttp.open("GET", hslAPI + 'key=' + address, true);
-xmlhttp.send();
+xmlhttpGeo.open("GET", hslAPI + 'key=' + address, true);
+xmlhttpGeo.send();
+
+var xmlhttpRoute = new XMLHttpRequest();
+xmlhttpRoute.onreadystatechange = function() {
+if (xmlhttpRoute.readyState == 4 && xmlhttpRoute.status == 200) {
+    var data = JSON.parse(xmlhttpRoute.responseText);
+    // This is where you can get creative with the service
+    // For instance, set that only journeys ending before the event's starting date are shown (Arrival parameter from reittiopas API)
+    }
+}
+xmlhttpRoute.open("GET", hslAPI + '&from=' + currentLocation + '&to=' + latlong, true);
+xmlhttpRoute.send();
 
 // // Handles google geocoder (to convert addresses into latitude/longitude pairs)
 // geocoder.geocode( { 'address': address}, function(results, status) {
