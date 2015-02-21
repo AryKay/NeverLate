@@ -1,9 +1,11 @@
 // Variables
 var timeNow = new Date();
-var address = '';
-var latitude = 0;
-var longitude = 0;
+var address = 'kampp';
+// var latitude = 0;
+// var longitude = 0;
 var geocoder = new google.maps.Geocoder();
+var hslAPI = "http://api.reittiopas.fi/hsl/prod/?user=arykay&pass=teamgg"
+var latlong = '';
 
 // Updates view
 function appendResults(text) {
@@ -35,12 +37,24 @@ function makeRequest() {
     });
 }
 
-// Handles google geocoder (to convert addresses into latitude/longitude pairs)
-geocoder.geocode( { 'address': address}, function(results, status) {
-if (status == google.maps.GeocoderStatus.OK) {
-    latitude = results[0].geometry.location.lat();
-    longitude = results[0].geometry.location.lng();
-    } 
-}); 
+// Handles Reittiopas geocoder functionality
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+    var data = JSON.parse(xmlhttp.responseText);
+    latlong = data.coords // not tested yet
+    console.log(latlong);
+    }
+}
+xmlhttp.open("GET", hslAPI + 'key=' + address, true);
+xmlhttp.send();
+
+// // Handles google geocoder (to convert addresses into latitude/longitude pairs)
+// geocoder.geocode( { 'address': address}, function(results, status) {
+// if (status == google.maps.GeocoderStatus.OK) {
+//     latitude = results[0].geometry.location.lat();
+//     longitude = results[0].geometry.location.lng();
+//     } 
+// }); 
 
 init()
