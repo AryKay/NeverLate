@@ -12,7 +12,7 @@ While you’re working, NeverLate:
 - reminds you the way you set it up
 
 # Things done
-* Basic initialization of the google calendar and reittiopas APIs and their interaction. 
+* Basic initialization of the google calendar and reittiopas APIs and their interaction (plus optional Google Maps functionality as an alternative to reittiopas geocoding)
 * Commentary on how it can be further developed. 
 * Concept description (in 'concept' directory)
 
