@@ -16,5 +16,10 @@ While you’re working, NeverLate:
 * Commentary on how it can be further developed. 
 * Concept description (in 'concept' directory)
 
-# Useful Info
+# Things to do
+* add UI
+* complete data processing
+* choose a platform and add push notifications
+
+# Useful info
 Reittiopas API Documentation: http://developer.reittiopas.fi/pages/en/home.php
